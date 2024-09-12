@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sponsors Dashboard</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/sponsors_dashboard.css') }}">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h2>Sponsors Dashboard</h2>
+            <nav>
+                <ul>
+                    <li><a href="{{ url_for('view_campaigns') }}">Campaigns</a></li>
+                    <li><a href="{{ url_for('view_ad_requests') }}">Ad Request</a></li>
+                    <li><a href="{{ url_for('sponsor_stat') }}">Statistics</a></li>
+                    <li><a href="{{ url_for('sponsor_find') }}">Find Campaigns</a></li>
+                </ul>
+            </nav>
+        </header>
+        
+        <h3>Your Campaigns</h3>
+        <table>
+            <thead>
+                <tr>
+                    <th>Company/Individual Name</th>
+                    <th>Niche</th>
+                    <th>Budget</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody id="campaigns-table">
+                {% for campaign in campaigns %}
+                <tr>
+                    <td>{{ campaign.name }}</td>
+                    <td>{{ campaign.niche }}</td>
+                    <td>${{ campaign.budget }}</td>
+                    <td class="campaign-actions">
+                        <form action="{{ url_for('view_campaigns', campaign_id=campaign.id) }}">
+                            <button type="submit" class="button">View Details</button>
+                        </form>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+        <h3>New Requests:</h3>
+        <table>
+            <thead>
+                <tr>
+                    <th>From Influencer</th>
+                    <th>Campaign</th>
+                    <th>Status</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody id="ad-requests-table">
+                {% for ad_request in ad_requests %}
+                <tr>
+                    <td>{{ ad_request.influencer }}</td>
+                    <td>{{ ad_request.campaign.name }}</td>
+                    <td>{{ ad_request.status }}</td>
+                    <form action="{{ url_for('sponsorview_adrequest_details', ad_request_id=ad_request.id) }}" method="GET">
+                        <button type="submit" class="button">View</button>
+                    </form>
+                    <td class="ad-request-actions">
+                        <button onclick="acceptAdRequest({{ ad_request.id }})">Accept</button>
+                        <button onclick="rejectAdRequest({{ ad_request.id }})">Reject</button>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        <a href="{{ url_for('logout') }}" class="logout-link">Logout</a>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            fetch('{{ url_for('new_ad_requests') }}')
+                .then(response => response.json())
+                .then(data => {
+                    const adRequestsTable = document.getElementById('ad-requests-table');
+                    adRequestsTable.innerHTML = ''; // Clear existing table rows
+                    data.ad_requests.forEach(adRequest => {
+                        const row = `
+                            <tr>
+                                <td>${adRequest.influencer}</td>
+                                <td>${adRequest.campaign.name}</td>
+                                <td>${adRequest.status}</td>
+                                <td class="ad-request-actions">
+                                    <button onclick="viewAdRequest(${adRequest.id})">View</button>
+                                    <button onclick="acceptAdRequest(${adRequest.id})">Accept</button>
+                                    <button onclick="rejectAdRequest(${adRequest.id})">Reject</button>
+                                </td>
+                            </tr>
+                        `;
+                        adRequestsTable.insertAdjacentHTML('beforeend', row);
+                    });
+                })
+                .catch(error => {
+                    console.error('Error fetching ad requests:', error);
+                    alert('Failed to fetch ad requests. Please try again.');
+                });
+        });
+
+        function viewAdRequest(adRequestId) {
+            const form = document.createElement('form');
+            form.method = 'GET';
+            form.action = `{{ url_for('view_ad_requests') }}?ad_request_id=${adRequestId}`;
+            document.body.appendChild(form);
+            form.submit();
+        }
+
+        function acceptAdRequest(adRequestId) {
+            fetch('/accept_ad_request', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ ad_request_id: adRequestId })
+            })
+            .then(response => response.json())
+            .then(data => {
+                alert(data.message);
+                // Optionally update the UI or reload data
+                location.reload(); // Reload the page to reflect changes
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('An error occurred while accepting the ad request.');
+            });
+        }
+
+        function rejectAdRequest(adRequestId) {
+            fetch('/reject_ad_request', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ ad_request_id: adRequestId })
+            })
+            .then(response => response.json())
+            .then(data => {
+                alert(data.message);
+                // Optionally update the UI or reload data
+                location.reload(); // Reload the page to reflect changes
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('An error occurred while rejecting the ad request.');
+            });
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - Influencer Engagement Platform</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/dashboard.css') }}">
+</head>
+<body>
+    <div class="dashboard-container {% if role == 'admin' %}admin{% elif role == 'sponsor' %}sponsor{% elif role == 'influencer' %}influencer{% endif %}">
+        <h2>Welcome, {{ username }}</h2>
+        <p>Role: {{ role }}</p>
+        {% if role == 'admin' %}
+            <h3>Admin Dashboard</h3>
+            <p>Here you can manage users and content.</p>
+            <!-- Add admin specific content here -->
+        {% elif role == 'sponsor' %}
+            <h3>Sponsor Dashboard</h3>
+            <p>Here you can manage your sponsorships and view reports.</p>
+            <!-- Add sponsor specific content here -->
+        {% elif role == 'influencer' %}
+            <h3>Influencer Dashboard</h3>
+            <p>Here you can manage your campaigns and view engagement stats.</p>
+            <!-- Add influencer specific content here -->
+        {% endif %}
+        <a href="{{ url_for('logout') }}">Logout</a>
+    </div>
+</body>
+</html>

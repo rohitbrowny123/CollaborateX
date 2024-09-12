@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ad Request Details</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/influencerview_adreq.css') }}">
+</head>
+<body>
+    <div class="header">
+        <h1>Ad Request Details</h1>
+        <button class="btn back-btn" onclick="location.href='{{ url_for('search_campaigns') }}'">Search Campaigns</button>
+    </div>
+
+    {% for ad_request in ad_requests %}
+    <div class="ad-request">
+        <h2>Campaign ID: {{ ad_request.campaign_id }}</h2>
+        <p>Requirements: {{ ad_request.requirements }}</p>
+        <p>Payment Amount: {{ ad_request.payment_amount }}</p>
+        <p>Status: {{ ad_request.status }}</p>
+
+        <div class="btn-container">
+            {% if ad_request.status == 'Pending' %}
+            <form id="ad-request-form-{{ ad_request.id }}" method="POST">
+                <input type="hidden" name="ad_request_id" value="{{ ad_request.id }}">
+                <button class="btn accept-btn" type="button" onclick="acceptAdRequest({{ ad_request.id }})">Accept</button>
+                <button class="btn reject-btn" type="button" onclick="rejectAdRequest({{ ad_request.id }})">Reject</button>
+                <button class="btn negotiate-btn" type="button" onclick="location.href='/negotiate_ad_request/{{ ad_request.id }}'">Negotiate</button>
+            </form>
+            {% elif ad_request.status == 'Accepted' %}
+            <p>Status: Accepted</p>
+            {% elif ad_request.status == 'Rejected' %}
+            <p>Status: Rejected</p>
+            {% elif ad_request.status == 'Negotiation' %}
+            <p>Status: Under Negotiation</p>
+            {% endif %}
+        </div>
+    </div>
+    {% endfor %}
+
+    <script>
+        function acceptAdRequest(adRequestId) {
+            fetch('/accept_alternative', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ ad_request_id: adRequestId })
+            })
+            .then(response => response.json())
+            .then(data => {
+                alert(data.message);
+                location.reload(); // Refresh the page after action
+            })
+            .catch(error => console.error('Error:', error));
+        }
+
+        function rejectAdRequest(adRequestId) {
+            fetch('/reject_alternative', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ ad_request_id: adRequestId })
+            })
+            .then(response => response.json())
+            .then(data => {
+                alert(data.message);
+                location.reload(); // Refresh the page after action
+            })
+            .catch(error => console.error('Error:', error));
+        }
+    </script>
+</body>
+</html>

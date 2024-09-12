@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Profile</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/profile_edit.css') }}">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Edit Profile</h1>
+            <nav>
+                <a href="{{ url_for('influencer_current_profile', id=influencer_data.id) }}" class="back-link">Back to Profile</a>
+            </nav>
+        </header>
+
+        <section class="edit-profile">
+            <form action="{{ url_for('edit_profile') }}" method="POST">
+                <div class="form-group">
+                    <label for="name">User Name:</label>
+                    <input type="text" id="name" name="name" value="{{ influencer_data.name }}">
+                </div>
+                <div class="form-group">
+                    <label for="category">Category:</label>
+                    <input type="text" id="category" name="category" value="{{ influencer_data.category }}">
+                </div>
+                <div class="form-group">
+                    <label for="niche">Niche:</label>
+                    <input type="text" id="niche" name="niche" value="{{ influencer_data.niche }}">
+                </div>
+                <div class="form-group">
+                    <label for="reach">Reach:</label>
+                    <input type="text" id="reach" name="reach" value="{{ influencer_data.reach }}">
+                </div>
+                <div class="form-group">
+                    <label for="followers">Followers:</label>
+                    <input type="number" id="followers" name="followers" value="{{ influencer_data.followers }}">
+                </div>
+                <div class="form-group">
+                    <button type="submit">Save Changes</button>
+                </div>
+            </form>
+        </section>
+    </div>
+</body>
+</html>

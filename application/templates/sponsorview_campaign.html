@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sponsor View - Campaigns</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/sponsorview_camp.css') }}">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Campaigns</h1>
+            <nav>
+                <ul>
+                    <li><a href="{{ url_for('create_campaign') }}">Create Campaign</a></li>
+                    <li><a href="{{ url_for('sponsors_dashboard') }}">Dashboard</a></li>
+                </ul>
+            </nav>
+        </header>
+
+        <section id="campaigns">
+            <h2>All Campaigns</h2>
+            <div class="campaign-list">
+                {% for campaign in campaigns %}
+                <div class="campaign">
+                    <h3>{{ campaign.name }}</h3>
+                    <p><strong>Description:</strong> {{ campaign.description }}</p>
+                    <p><strong>Start Date:</strong> {{ campaign.start_date }}</p>
+                    <p><strong>End Date:</strong> {{ campaign.end_date }}</p>
+                    <p><strong>Niche:</strong> {{ campaign.niche }}</p>
+                    <p><strong>Budget:</strong> ${{ campaign.budget }}</p>
+                    <p><strong>Visibility:</strong> {{ campaign.visibility }}</p>
+                    <p><strong>Goals:</strong> {{ campaign.goals }}</p>
+                    <form action="{{ url_for('delete_campaign', campaign_id=campaign.id) }}" method="post">
+                        <button type="submit" class="delete-button">Delete</button>
+                    </form>
+                </div>
+                {% endfor %}
+            </div>
+        </section>
+        <a href="{{ url_for('sponsors_dashboard') }}" class="back-button">Back to Dashboard</a>
+    </div>
+</body>
+</html>

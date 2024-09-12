@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin - Find User</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            background-color: #f5f5f5;
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+            margin: 0;
+        }
+        
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px;
+            background-color: #ffffff;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        
+        h2 {
+            color: #333;
+            font-size: 24px;
+            display: flex;
+        }
+        
+        nav ul {
+            list-style-type: none;
+            display: flex;
+        }
+        
+        nav ul li {
+            margin-right: 20px;
+        }
+        
+        nav ul li a {
+            text-decoration: none;
+            color: #333;
+            font-weight: bold;
+            transition: color 0.3s;
+        }
+        
+        nav ul li a:hover {
+            color: #0654a8;
+        }
+        
+        h3 {
+            color: #333;
+            margin-bottom: 20px;
+            margin: 20px 20px;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+        }
+        
+        table,
+        th,
+        td {
+            border: 1px solid #ccc;
+            padding: 12px;
+            text-align: left;
+            margin: 10px 10px;
+        }
+        
+        th {
+            background-color: #f2f2f2;
+            color: #333;
+        }
+        
+        tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+        
+        tr:hover {
+            background-color: #f1f1f1;
+        }
+        
+        .search-form {
+            display: flex;
+            justify-content: center;
+            margin: 20px;
+        }
+        
+        .search-form input[type="text"] {
+            padding: 10px;
+            font-size: 16px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            width: 300px;
+            margin-right: 10px;
+        }
+        
+        .search-form button {
+            padding: 10px 15px;
+            font-size: 16px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        
+        .search-form button:hover {
+            background-color: #0654a8;
+        }
+        
+        .logout-link {
+            display: block;
+            margin: 20px 10px;
+            padding: 10px 15px;
+            background-color: #007bff;
+            color: white;
+            text-decoration: none;
+            text-align: center;
+            border-radius: 4px;
+            transition: background-color 0.3s;
+        }
+        
+        .logout-link:hover {
+            background-color: #0654a8;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h2>Admin Dashboard</h2>
+            <nav>
+                <ul>
+                    <li><a href="{{ url_for('admin_dashboard') }}">Dashboard</a></li>
+                    <li><a href="{{ url_for('view_users') }}">View Users</a></li>
+                    <li><a href="{{ url_for('manage_campaigns') }}">Manage Campaigns</a></li>
+                    <li><a href="{{ url_for('statistics_page') }}">Statistics</a></li>
+                </ul>
+            </nav>
+        </header>
+        
+        <h3>Find User</h3>
+        
+        <div class="search-form">
+            <form action="{{ url_for('find') }}" method="post">
+                <input type="text" name="username" placeholder="Enter username" required>
+                <button type="submit">Search</button>
+            </form>
+        </div>
+
+        {% if user %}
+        <h3>User Information</h3>
+        <table>
+            <tr>
+                <th>ID</th>
+                <td>{{ user.id }}</td>
+            </tr>
+            <tr>
+                <th>Username</th>
+                <td>{{ user.username }}</td>
+            </tr>
+            <tr>
+                <th>Email</th>
+                <td>{{ user.email }}</td>
+            </tr>
+            <tr>
+                <th>Role</th>
+                <td>{{ user.role }}</td>
+            </tr>
+        </table>
+        {% endif %}
+        
+        {% if campaigns %}
+        <h3>Manage Campaigns</h3>
+        <table>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Name</th>
+                    <th>Niche</th>
+                    <th>Start Date</th>
+                    <th>End Date</th>
+                    <th>Budget</th>
+                    <th>Sponsor</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for campaign in campaigns %}
+                <tr>
+                    <td>{{ campaign.id }}</td>
+                    <td>{{ campaign.name }}</td>
+                    <td>{{ campaign.niche }}</td>
+                    <td>{{ campaign.start_date }}</td>
+                    <td>{{ campaign.end_date }}</td>
+                    <td>${{ campaign.budget }}</td>
+                    <td>{{ campaign.sponsor_id }}</td>
+                    <td>
+                        <a href="{{ url_for('adminedit_user', id=user.id) }}">Edit</a> | 
+                        <a href="#" onclick="confirmDelete('{{ url_for('delete_user', id=user.id) }}')">Delete</a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        {% endif %}
+        
+        {% if ad_requests %}
+        <h3>Manage Ad Requests</h3>
+        <table>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Campaign</th>
+                    <th>Influencer</th>
+                    <th>Requirements</th>
+                    <th>Payment</th>
+                    <th>Status</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for ad_request in ad_requests %}
+                <tr>
+                    <td>{{ ad_request.id }}</td>
+                    <td>{{ ad_request.campaign.name }}</td>
+                    <td>{{ ad_request.influencer.username }}</td>
+                    <td>{{ ad_request.requirements }}</td>
+                    <td>${{ ad_request.payment_amount }}</td>
+                    <td>{{ ad_request.status }}</td>
+                    <td>
+                        <button onclick="viewAdRequest({{ ad_request.id }})">View</button>
+                        <button onclick="acceptAdRequest({{ ad_request.id }})">Accept</button>
+                        <button onclick="rejectAdRequest({{ ad_request.id }})">Reject</button>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        {% endif %}
+        
+        {% if flagged_campaigns or flagged_users %}
+        <h3>Flagged Users and Campaigns</h3>
+        {% if flagged_users %}
+        <h4>Flagged Users</h4>
+        <table>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Username</th>
+                    <th>Email</th>
+                    <th>Role</th>
+                    <th>Flag Reason</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for user in flagged_users %}
+                <tr>
+                    <td>{{ user.id }}</td>
+                    <td>{{ user.username }}</td>
+                    <td>{{ user.email }}</td>
+                    <td>{{ user.role }}</td>
+                    <td>{{ user.flag_reason }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        {% endif %}
+        
+        {% if flagged_campaigns %}
+        <h4>Flagged Campaigns</h4>
+        <table>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Name</th>
+                    <th>Niche</th>
+                    <th>Start Date</th>
+                    <th>End Date</th>
+                    <th>Budget</th>
+                    <th>Sponsor</th>
+                    <th>Flag Reason</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for campaign in flagged_campaigns %}
+                <tr>
+                    <td>{{ campaign.id }}</td>
+                    <td>{{ campaign.name }}</td>
+                    <td>{{ campaign.niche }}</td>
+                    <td>{{ campaign.start_date }}</td>
+                    <td>{{ campaign.end_date }}</td>
+                    <td>${{ campaign.budget }}</td>
+                    <td>{{ campaign.sponsor_id }}</td>
+                    <td>{{ campaign.flag_reason }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        {% endif %}
+        {% endif %}
+        
+        <a href="{{ url_for('logout') }}" class="logout-link">Logout</a>
+    </div>
+
+    <script>
+        function viewAdRequest(adRequestId) {
+            alert("View details of Ad Request with ID: " + adRequestId);
+            // Implement view details functionality if needed
+        }
+
+        function acceptAdRequest(adRequestId) {
+            fetch('/accept_ad_request', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ ad_request_id: adRequestId })
+            })
+            .then(response => response.json())
+            .then(data => {
+                alert(data.message);
+                // Optionally update the UI or reload data
+                location.reload(); // Reload the page to reflect changes
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('An error occurred while accepting the ad request.');
+            });
+        }
+
+        function rejectAdRequest(adRequestId) {
+            fetch('/reject_ad_request', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ ad_request_id: adRequestId })
+            })
+            .then(response => response.json())
+            .then(data => {
+                alert(data.message);
+                // Optionally update the UI or reload data
+                location.reload(); // Reload the page to reflect changes
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('An error occurred while rejecting the ad request.');
+            });
+        }
+    </script>
+</body>
+</html>

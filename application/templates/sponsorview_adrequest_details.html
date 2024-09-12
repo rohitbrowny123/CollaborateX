@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ad Request Details</title>
+    <!-- Include your CSS styles here -->
+    <link rel="stylesheet" href="path/to/your/styles.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Ad Request Details</h1>
+        <div class="ad-request-details">
+            <h2>Campaign Details</h2>
+            <p><strong>Campaign Name:</strong> {{ ad_request.campaign.name }}</p>
+            <p><strong>Niche:</strong> {{ ad_request.campaign.niche }}</p>
+            <p><strong>Start Date:</strong> {{ ad_request.campaign.start_date }}</p>
+            <p><strong>End Date:</strong> {{ ad_request.campaign.end_date }}</p>
+            <p><strong>Budget:</strong> {{ ad_request.campaign.budget }}</p>
+            <p><strong>Visibility:</strong> {{ ad_request.campaign.visibility }}</p>
+            <p><strong>Goals:</strong> {{ ad_request.campaign.goals }}</p>
+            <hr>
+            <h2>Influencer Details</h2>
+            <p><strong>Influencer Username:</strong> {{ ad_request.influencer.username }}</p>
+            <p><strong>Category:</strong> {{ ad_request.influencer.category }}</p>
+            <p><strong>Niche:</strong> {{ ad_request.influencer.niche }}</p>
+            <p><strong>Reach:</strong> {{ ad_request.influencer.reach }}</p>
+            <p><strong>Followers:</strong> {{ ad_request.influencer.followers }}</p>
+            <hr>
+            <h2>Ad Request Details</h2>
+            <p><strong>Requirements:</strong> {{ ad_request.requirements }}</p>
+            <p><strong>Payment Amount:</strong> {{ ad_request.payment_amount }}</p>
+            <p><strong>Status:</strong> {{ ad_request.status }}</p>
+        </div>
+    </div>
+</body>
+</html>

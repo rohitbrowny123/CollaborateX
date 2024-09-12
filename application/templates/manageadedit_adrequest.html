@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Ad Request - Admin Dashboard</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/manageadedit_adrequest.css') }}">
+</head>
+<body>
+    <div class="dashboard-container">
+        <header>
+            <h2>Admin Dashboard</h2>
+            <nav>
+                <ul>
+                    <li><a href="{{ url_for('admin_dashboard') }}">Dashboard</a></li>
+                    <li><a href="{{ url_for('view_users') }}">View Users</a></li>
+                    <li><a href="{{ url_for('statistics_page') }}">Statistics</a></li>
+                </ul>
+            </nav>
+        </header>
+        
+        <h3>Edit Ad Request</h3>
+        
+        <form method="POST" action="{{ url_for('edit_ad_request', ad_request_id=ad_request.id) }}">
+            <div>
+                <label for="campaign">Campaign:</label>
+                <select name="campaign_id" id="campaign">
+                    {% for campaign in campaigns %}
+                    <option value="{{ campaign.id }}" {% if campaign.id == ad_request.campaign_id %}selected{% endif %}>{{ campaign.name }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            
+            <div>
+                <label for="influencer">Influencer:</label>
+                <select name="influencer_id" id="influencer">
+                    {% for influencer in influencers %}
+                    <option value="{{ influencer.id }}" {% if influencer.id == ad_request.influencer_id %}selected{% endif %}>{{ influencer.username }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            
+            <div>
+                <label for="requirements">Requirements:</label>
+                <textarea name="requirements" id="requirements" rows="4">{{ ad_request.requirements }}</textarea>
+            </div>
+            
+            <div>
+                <label for="payment_amount">Payment Amount:</label>
+                <input type="number" name="payment_amount" id="payment_amount" value="{{ ad_request.payment_amount }}">
+            </div>
+            
+            <div>
+                <label for="status">Status:</label>
+                <select name="status" id="status">
+                    <option value="Pending" {% if ad_request.status == 'Pending' %}selected{% endif %}>Pending</option>
+                    <option value="Approved" {% if ad_request.status == 'Approved' %}selected{% endif %}>Approved</option>
+                    <option value="Rejected" {% if ad_request.status == 'Rejected' %}selected{% endif %}>Rejected</option>
+                </select>
+            </div>
+            
+            <button type="submit">Save Changes</button>
+        </form>
+        
+        <a href="{{ url_for('manage_ads') }}">Back to Manage Ad Requests</a>
+    </div>
+</body>
+</html>

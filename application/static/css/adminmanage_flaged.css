@@ -1,0 +1,108 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    margin: 0;
+    padding: 0;
+}
+
+.dashboard-container {
+    width: 80%;
+    margin: 0 auto;
+    background-color: #fff;
+    padding: 20px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    margin-top: 20px;
+}
+
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid #ccc;
+    padding-bottom: 10px;
+    margin-bottom: 20px;
+}
+
+header h2 {
+    margin: 0;
+}
+
+nav ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+}
+
+nav ul li {
+    margin-right: 10px;
+}
+
+nav ul li a {
+    text-decoration: none;
+    color: #333;
+}
+
+nav ul li a:hover {
+    text-decoration: underline;
+}
+
+h3 {
+    margin-top: 0;
+}
+
+.flagged-list {
+    margin-top: 20px;
+}
+
+.flagged-list table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.flagged-list table,
+.flagged-list th,
+.flagged-list td {
+    border: 1px solid #ddd;
+}
+
+.flagged-list th,
+.flagged-list td {
+    padding: 8px;
+    text-align: left;
+}
+
+.flagged-list th {
+    background-color: #f4f4f4;
+}
+
+.flagged-list tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+.flagged-list tr:hover {
+    background-color: #f1f1f1;
+}
+
+a {
+    color: #3498db;
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+.dashboard-container a {
+    display: inline-block;
+    margin-top: 20px;
+    background-color: #3498db;
+    color: #fff;
+    padding: 10px 20px;
+    text-align: center;
+    border-radius: 5px;
+}
+
+.dashboard-container a:hover {
+    background-color: #2980b9;
+}

@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create Ad Request</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/sponsorcreate_ad.css') }}">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Create Ad Request</h1>
+            <nav>
+                <ul>
+                    <li><a href="{{ url_for('view_ad_requests') }}">View Ad Requests</a></li>
+                    <li><a href="{{ url_for('sponsors_dashboard') }}">Dashboard</a></li>
+                </ul>
+            </nav>
+        </header>
+
+        <section id="create-ad-request">
+            <form action="{{ url_for('create_ad_request') }}" method="post">
+                <div class="form-group">
+                    <label for="campaign">Select Campaign:</label>
+                    <select id="campaign" name="campaign" required>
+                        {% for campaign in campaigns %}
+                        <option value="{{ campaign.id }}">{{ campaign.name }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="influencer">Select Influencer:</label>
+                    <select id="influencer" name="influencer" required>
+                        {% if influencers %}
+                            {% for influencer in influencers %}
+                            <option value="{{ influencer.id }}">{{ influencer.username }} - {{ influencer.category }}</option>
+                            {% endfor %}
+                        {% else %}
+                            <option disabled>No influencers available</option>
+                        {% endif %}
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="requirements">Requirements:</label>
+                    <textarea id="requirements" name="requirements" rows="4" required></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label for="payment_amount">Payment Amount ($):</label>
+                    <input type="number" id="payment_amount" name="payment_amount" step="0.01" min="0" required>
+                </div>
+
+                <button type="submit">Submit</button>
+            </form>
+        </section>
+
+        <a href="{{ url_for('sponsors_dashboard') }}">Back to Dashboard</a>
+
+    </div>
+</body>
+</html>

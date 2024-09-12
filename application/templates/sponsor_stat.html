@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sponsor Statistics</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #cbcdc2;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin: 0;
+            padding: 20px;
+        }
+
+        header {
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px;
+            background-color: #77d481;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        h2 {
+            color: #333;
+            font-size: 28px;
+        }
+
+        nav ul {
+            list-style-type: none;
+            display: flex;
+            margin: 0;
+            padding: 0;
+        }
+
+        nav ul li {
+            margin-right: 20px;
+        }
+
+        nav ul li a {
+            text-decoration: none;
+            color: #333;
+            font-weight: bold;
+            transition: color 0.3s;
+            font-size:18px;
+        }
+
+        nav ul li a:hover {
+            color: #ffffff;
+        }
+
+        .chart-container {
+            width: 40%; 
+            margin: 20px 0;
+            padding: 20px;
+            background-color: #fff;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+    </style>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <header>
+        <h2>Sponsor Statistics</h2>
+        <nav>
+            <ul>
+                <li><a href="/sponsors_dashboard">Sponsor Dashboard</a></li>
+                <li><a href="/view_campaigns">Campaigns</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <div class="chart-container">
+        <h3>Campaign Budgets</h3>
+        <canvas id="campaignBudgetChart"></canvas>
+    </div>
+
+    <div class="chart-container">
+        <h3>Ad Request Statuses</h3>
+        <canvas id="adRequestStatusChart"></canvas>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            var ctx1 = document.getElementById('campaignBudgetChart').getContext('2d');
+            var ctx2 = document.getElementById('adRequestStatusChart').getContext('2d');
+
+            // Print the data to verify it's correctly passed
+            console.log("Campaign Names:", {{ campaign_names | safe }});
+            console.log("Campaign Budgets:", {{ campaign_budgets | safe }});
+            console.log("Ad Request Statuses:", {{ ad_request_statuses | safe }});
+
+            var campaignNames = {{ campaign_names | tojson }};
+            var campaignBudgets = {{ campaign_budgets | tojson }};
+            var adRequestStatuses = {{ ad_request_statuses | tojson }};
+
+            var campaignBudgetChart = new Chart(ctx1, {
+                type: 'bar',
+                data: {
+                    labels: campaignNames,
+                    datasets: [{
+                        label: 'Budget ($)',
+                        data: campaignBudgets,
+                        backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                        borderColor: 'rgba(75, 192, 192, 1)',
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    scales: {
+                        y: {
+                            beginAtZero: true
+                        }
+                    }
+                }
+            });
+
+            var adRequestStatusChart = new Chart(ctx2, {
+                type: 'pie',
+                data: {
+                    labels: Object.keys(adRequestStatuses),
+                    datasets: [{
+                        label: 'Ad Request Statuses',
+                        data: Object.values(adRequestStatuses),
+                        backgroundColor: [
+                            'rgba(75, 192, 192, 0.2)',
+                            'rgba(255, 99, 132, 0.2)',
+                            'rgba(255, 205, 86, 0.2)'
+                        ],
+                        borderColor: [
+                            'rgba(75, 192, 192, 1)',
+                            'rgba(255, 99, 132, 1)',
+                            'rgba(255, 205, 86, 1)'
+                        ],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true
+                }
+            });
+        });
+    </script>
+</body>
+</html>

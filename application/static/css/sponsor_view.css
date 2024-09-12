@@ -1,0 +1,100 @@
+.ad-request-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    /* Adjust the gap between ad requests */
+}
+
+.ad-request {
+    flex: 1 1 calc(30% - 20px);
+    /* Adjust width to fit three columns with gap */
+    background-color: #f9f9f9;
+    padding: 15px;
+    border-radius: 8px;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px;
+    min-width: 300px;
+    /* Ensure a minimum width to prevent squeezing */
+}
+
+.ad-request h3 {
+    font-size: 18px;
+    margin-bottom: 10px;
+}
+
+.ad-request p {
+    margin-bottom: 5px;
+}
+
+.ad-request p strong {
+    display: inline-block;
+    width: 140px;
+    font-weight: bold;
+}
+
+.delete-button {
+    background-color: #e74c3c;
+    color: #fff;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    margin-top: 10px;
+}
+
+.delete-button:hover {
+    background-color: #c0392b;
+}
+
+/* Additional adjustments for layout */
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+header h1 {
+    font-size: 24px;
+}
+
+nav ul {
+    list-style-type: none;
+}
+
+nav ul li {
+    display: inline;
+    margin-right: 10px;
+}
+
+nav ul li a {
+    text-decoration: none;
+    color: #fefefe;
+    padding: 12px 16px;
+    border-radius: 5px;
+    background-color: #58be5d;
+    transition: background-color 0.3s ease;
+}
+
+nav ul li a:hover {
+    background-color: #3bb93f;
+    text-decoration: underline;
+}
+
+.back-button {
+    display: inline-block;
+    margin-top: 10px;
+    padding: 12px 16px;
+    text-decoration: none;
+    color: #fefeff;
+    background-color: #58be5d;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+}
+
+.back-button:hover {
+    background-color: #3bb93f;
+    text-decoration: underline;
+}

@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Search Campaigns - Influencer Engagement Platform</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/influencersearch_campaigns.css') }}">
+</head>
+<body>
+    <div class="dashboard-container">
+        <header>
+            <h2>Search Campaigns</h2>
+            <nav>
+                <ul>
+                    <li><a href="{{ url_for('influencer_dashboard', id=current_user_id) }}">Dashboard</a></li>
+                    <li><a href="{{ url_for('influencer_current_profile', id=current_user_id) }}">Profile</a></li>
+                    <li><a href="{{ url_for('logout') }}">Logout</a></li>
+                </ul>
+            </nav>
+        </header>
+        
+        <div class="search-section">
+            <h3>Filter Campaigns</h3>
+            <div class="filter-buttons">
+                <label for="niche-filter">Niche:</label>
+                <input type="text" id="niche-filter" oninput="filterBy('niche')" placeholder="Enter niche...">
+                <div class="filter-options" id="niche-options"></div>
+                <label for="budget-filter">Budget:</label>
+                <input type="text" id="budget-filter" oninput="filterBy('budget')" placeholder="Enter budget...">
+                <div class="filter-options" id="budget-options"></div>
+            </div>
+        </div>
+
+        <div id="campaigns-list" class="campaigns-list">
+            {% for campaign in campaigns %}
+                <div class="campaign" data-niche="{{ campaign.niche }}" data-budget="{{ campaign.budget }}">
+                    <h4>{{ campaign.name }}</h4>
+                    <p>{{ campaign.description }}</p>
+                    <p><strong>Niche:</strong> {{ campaign.niche }}</p>
+                    <p><strong>Budget:</strong> ${{ campaign.budget }}</p>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+    
+    <script>
+        function filterBy(criteria) {
+            let campaigns = document.querySelectorAll('.campaign');
+            let nicheOptions = document.getElementById('niche-options');
+            let budgetOptions = document.getElementById('budget-options');
+            let niches = [];
+            let budgets = [];
+
+            nicheOptions.innerHTML = '';
+            budgetOptions.innerHTML = '';
+
+            campaigns.forEach(campaign => {
+                let niche = campaign.getAttribute('data-niche');
+                let budget = campaign.getAttribute('data-budget');
+
+                if (!niches.includes(niche)) {
+                    niches.push(niche);
+                    let option = document.createElement('div');
+                    option.classList.add('option');
+                    option.textContent = niche;
+                    option.onclick = function() {
+                        document.getElementById('niche-filter').value = niche;
+                        filterBy('niche');
+                    };
+                    nicheOptions.appendChild(option);
+                }
+
+                if (!budgets.includes(budget)) {
+                    budgets.push(budget);
+                    let option = document.createElement('div');
+                    option.classList.add('option');
+                    option.textContent = '$' + budget;
+                    option.onclick = function() {
+                        document.getElementById('budget-filter').value = budget;
+                        filterBy('budget');
+                    };
+                    budgetOptions.appendChild(option);
+                }
+            });
+
+            campaigns.forEach(campaign => {
+                let niche = campaign.getAttribute('data-niche');
+                let budget = campaign.getAttribute('data-budget');
+
+                if (criteria === 'niche') {
+                    let filterValue = document.getElementById('niche-filter').value.toLowerCase().trim();
+                    campaign.style.display = (niche.toLowerCase().includes(filterValue)) ? 'block' : 'none';
+                } else if (criteria === 'budget') {
+                    let filterValue = document.getElementById('budget-filter').value.trim();
+                    campaign.style.display = (budget === filterValue) ? 'block' : 'none';
+                }
+            });
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create Campaign</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/sponsorcreate_campaign.css') }}">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Create New Campaign</h1>
+            <nav>
+                <ul>
+                    <li><a href="{{ url_for('sponsors_dashboard') }}">Dashboard</a></li>
+                    <li><a href="{{ url_for('view_campaigns') }}">View Campaigns</a></li>
+                </ul>
+            </nav>
+        </header>
+
+        <section id="create-campaign-form">
+            <h2>Campaign Details</h2>
+            <form method="POST" action="{{ url_for('create_campaign') }}">
+                <label for="name">Name:</label>
+                <input type="text" id="name" name="name" required>
+
+                <label for="start_date">Start Date:</label>
+                <input type="date" id="start_date" name="start_date" required>
+
+                <label for="end_date">End Date:</label>
+                <input type="date" id="end_date" name="end_date" required>
+
+                <label for="niche">Niche:</label>
+                <input type="text" id="niche" name="niche" required>
+
+                <label for="budget">Budget:</label>
+                <input type="number" id="budget" name="budget" step="0.01" required>
+
+                <label for="visibility">Visibility:</label>
+                <select id="visibility" name="visibility">
+                    <option value="public">Public</option>
+                    <option value="private">Private</option>
+                </select>
+
+                <label for="goals">Goals:</label>
+                <textarea id="goals" name="goals" required></textarea>
+
+                
+
+                <button type="submit">Create Campaign</button>
+            </form>
+        </section>
+    </div>
+</body>
+</html>

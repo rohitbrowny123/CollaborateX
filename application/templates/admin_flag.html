@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Flag - Admin Dashboard</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/admin.css') }}">
+    <style>
+        .flag-button {
+            padding: 10px 15px;
+            background-color: green;
+            color: white;
+            border: none;
+            border-radius: 3px;
+            cursor: pointer;
+        }
+
+        .flagged {
+            background-color: red !important;
+        }
+    </style>
+</head>
+<body>
+    <div class="dashboard-container">
+        <header>
+            <h2>Admin Dashboard</h2>
+            <nav>
+                <ul>
+                    <li><a href="{{ url_for('admin_dashboard') }}">Dashboard</a></li>
+                    <li><a href="{{ url_for('view_users') }}">View Users</a></li>
+                    <li><a href="{{ url_for('manage_campaigns') }}">Manage Campaigns</a></li>
+                    <li><a href="{{ url_for('manage_ads') }}">Manage Ads</a></li>
+                </ul>
+            </nav>
+        </header>
+        
+        <h3>Flag Users and Campaigns</h3>
+        
+        <h4>Users</h4>
+        <div class="user-list">
+            <table>
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Username</th>
+                        <th>Email</th>
+                        <th>Role</th>
+                        <th>Flag</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for user in users %}
+                    <tr>
+                        <td>{{ user.id }}</td>
+                        <td>{{ user.username }}</td>
+                        <td>{{ user.email }}</td>
+                        <td>{{ user.role }}</td>
+                        <td>
+                            <button class="flag-button {% if user.flag_reason %}flagged{% endif %}" data-id="{{ user.id }}" data-type="user">
+                                {% if user.flag_reason %}Flagged{% else %}Flag{% endif %}
+                            </button>
+                            <input type="text" class="flag-reason" placeholder="Reason for flagging" style="display:none;">
+                            <button class="submit-reason" style="display:none;">Submit</button>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        
+        <h4>Campaigns</h4>
+        <div class="campaign-list">
+            <table>
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Name</th>
+                        <th>Niche</th>
+                        <th>Start Date</th>
+                        <th>End Date</th>
+                        <th>Budget</th>
+                        <th>Flag</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for campaign in campaigns %}
+                    <tr>
+                        <td>{{ campaign.id }}</td>
+                        <td>{{ campaign.name }}</td>
+                        <td>{{ campaign.niche }}</td>
+                        <td>{{ campaign.start_date }}</td>
+                        <td>{{ campaign.end_date }}</td>
+                        <td>${{ campaign.budget }}</td>
+                        <td>
+                            <button class="flag-button {% if campaign.flag_reason %}flagged{% endif %}" data-id="{{ campaign.id }}" data-type="campaign">
+                                {% if campaign.flag_reason %}Flagged{% else %}Flag{% endif %}
+                            </button>
+                            <input type="text" class="flag-reason" placeholder="Reason for flagging" style="display:none;">
+                            <button class="submit-reason" style="display:none;">Submit</button>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        
+        <a href="{{ url_for('admin_dashboard') }}">Back to Dashboard</a>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            document.querySelectorAll('.flag-button').forEach(function(button) {
+                button.addEventListener('click', function() {
+                    let row = button.closest('tr');
+                    let reasonInput = row.querySelector('.flag-reason');
+                    let submitButton = row.querySelector('.submit-reason');
+                    
+                    if (button.textContent.trim() === 'Flag') {
+                        reasonInput.style.display = 'inline';
+                        submitButton.style.display = 'inline';
+                    }
+                });
+            });
+
+            document.querySelectorAll('.submit-reason').forEach(function(button) {
+                button.addEventListener('click', function() {
+                    let row = button.closest('tr');
+                    let reasonInput = row.querySelector('.flag-reason');
+                    let flagButton = row.querySelector('.flag-button');
+                    let id = flagButton.getAttribute('data-id');
+                    let type = flagButton.getAttribute('data-type');
+                    let reason = reasonInput.value;
+
+                    fetch('{{ url_for('flag') }}', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({ id: id, type: type, reason: reason })
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.success) {
+                            flagButton.textContent = 'Flagged';
+                            flagButton.classList.add('flagged');
+                            reasonInput.style.display = 'none';
+                            button.style.display = 'none';
+                        } else {
+                            alert('Failed to flag item');
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Error:', error);
+                    });
+                });
+            });
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manage Flagged Content - Admin Dashboard</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/adminmanage_flaged.css') }}">
+</head>
+<body>
+    <div class="dashboard-container">
+        <header>
+            <h2>Admin Dashboard</h2>
+            <nav>
+                <ul>
+                    <li><a href="{{ url_for('admin_dashboard') }}">Dashboard</a></li>
+                    <li><a href="{{ url_for('admin_flag') }}">Flag Page</a></li>
+                    <li><a href="{{ url_for('statistics_page') }}">Statistics</a></li>
+                </ul>
+            </nav>
+        </header>
+        
+        <h3>Manage Flagged Content</h3>
+        
+        <div class="flagged-list">
+            <h4>Flagged Campaigns</h4>
+            <table>
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Name</th>
+                        <th>Reason</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for campaign in flagged_campaigns %}
+                    <tr>
+                        <td>{{ campaign.id }}</td>
+                        <td>{{ campaign.name }}</td>
+                        <td>{{ campaign.flag_reason }}</td>
+                        <td>
+                            <a href="#">Review</a> | 
+                            <a href="#">Delete</a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            
+            <h4>Flagged Users</h4>
+            <table>
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Username</th>
+                        <th>Reason</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for user in flagged_users %}
+                    <tr>
+                        <td>{{ user.id }}</td>
+                        <td>{{ user.username }}</td>
+                        <td>{{ user.flag_reason }}</td>
+                        <td>
+                            <a href="#">Review</a> | 
+                            <a href="#">Delete</a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        
+        <a href="{{ url_for('admin_dashboard') }}">Back to Dashboard</a>
+    </div>
+</body>
+</html>

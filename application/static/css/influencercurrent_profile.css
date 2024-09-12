@@ -1,0 +1,92 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f9;
+    margin: 0;
+    padding: 0;
+}
+
+.container {
+    max-width: 800px;
+    margin: 50px auto;
+    background: #fff;
+    padding: 20px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+}
+
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+header h2 {
+    margin: 0;
+    font-size: 24px;
+    color: #333;
+}
+
+nav .dashboard-link {
+    text-decoration: none;
+    color: #fff;
+    background: #007bff;
+    padding: 10px 20px;
+    border-radius: 5px;
+    transition: background 0.3s;
+}
+
+nav .dashboard-link:hover {
+    background: #0056b3;
+}
+
+.success-message {
+    background-color: #d4edda;
+    color: #155724;
+    border: 1px solid #c3e6cb;
+    padding: 10px;
+    margin-bottom: 20px;
+    border-radius: 5px;
+    text-align: center;
+}
+
+.profile-info p {
+    font-size: 18px;
+    color: #555;
+}
+
+.profile-info p strong {
+    color: #333;
+}
+
+.profile-actions {
+    margin-top: 20px;
+}
+
+.profile-actions .btn {
+    text-decoration: none;
+    padding: 10px 15px;
+    border-radius: 5px;
+    color: #fff;
+    background: #28a745;
+    transition: background 0.3s;
+    margin-right: 10px;
+    display: inline-block;
+    border: none;
+}
+
+.profile-actions .btn-danger {
+    background: #dc3545;
+}
+
+.profile-actions .btn:hover {
+    background: #218838;
+}
+
+.profile-actions .btn-danger:hover {
+    background: #c82333;
+}
+
+.profile-actions .delete-form {
+    display: inline;
+}

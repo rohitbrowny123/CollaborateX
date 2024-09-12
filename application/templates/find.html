@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Find</title>
+    <style>
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+        }
+        th {
+            background-color: #f2f2f2;
+            text-align: left;
+        }
+        .button {
+            padding: 5px 10px;
+            margin: 5px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .view-button {
+            background-color: #4CAF50;
+            color: white;
+        }
+        .flag-button {
+            background-color: #f44336;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <h2>Find</h2>
+
+    <h3>Sponsors</h3>
+    <table>
+        <tr>
+            <th>Name</th>
+            <th>Details</th>
+            <th>Actions</th>
+        </tr>
+        <tr>
+            <td>Sponsor 1</td>
+            <td>Details about Sponsor 1</td>
+            <td>
+                <a href="{{ url_for('view_sponsor', sponsor_name='Sponsor 1') }}" class="button view-button">View</a>
+                <button class="button flag-button">Flag</button>
+            </td>
+        </tr>
+        <tr>
+            <td>Sponsor 2</td>
+            <td>Details about Sponsor 2</td>
+            <td>
+                <a href="{{ url_for('view_sponsor', sponsor_name='Sponsor 2') }}" class="button view-button">View</a>
+                <button class="button flag-button">Flag</button>
+            </td>
+        </tr>
+        <!-- Add more sponsors as needed -->
+    </table>
+
+    <h3>Campaigns</h3>
+    <table>
+        <tr>
+            <th>Name</th>
+            <th>Details</th>
+            <th>Actions</th>
+        </tr>
+        <tr>
+            <td>Campaign 1</td>
+            <td>Details about Campaign 1</td>
+            <td>
+                <a href="{{ url_for('view_campaign', campaign_name='Campaign 1') }}" class="button view-button">View</a>
+                <button class="button flag-button">Flag</button>
+            </td>
+        </tr>
+        <tr>
+            <td>Campaign 2</td>
+            <td>Details about Campaign 2</td>
+            <td>
+                <a href="{{ url_for('view_campaign', campaign_name='Campaign 2') }}" class="button view-button">View</a>
+                <button class="button flag-button">Flag</button>
+            </td>
+        </tr>
+        <!-- Add more campaigns as needed -->
+    </table>
+
+    <h3>Influencers</h3>
+    <table>
+        <tr>
+            <th>Name</th>
+            <th>Details</th>
+            <th>Actions</th>
+        </tr>
+        <tr>
+            <td>Influencer 1</td>
+            <td>Details about Influencer 1</td>
+            <td>
+                <a href="{{ url_for('view_influencer', influencer_name='Influencer 1') }}" class="button view-button">View</a>
+                <button class="button flag-button">Flag</button>
+            </td>
+        </tr>
+        <tr>
+            <td>Influencer 2</td>
+            <td>Details about Influencer 2</td>
+            <td>
+                <a href="{{ url_for('view_influencer', influencer_name='Influencer 2') }}" class="button view-button">View</a>
+                <button class="button flag-button">Flag</button>
+            </td>
+        </tr>
+        <!-- Add more influencers as needed -->
+    </table>
+</body>
+</html>

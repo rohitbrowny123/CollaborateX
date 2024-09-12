@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sponsor View - Ad Requests</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/sponsor_view.css') }}">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Ad Requests</h1>
+            <nav>
+                <ul>
+                    <li><a href="{{ url_for('create_ad_request') }}">Create Ad Request</a></li>
+                    <li><a href="{{ url_for('sponsors_dashboard') }}">Dashboard</a></li>
+                </ul>
+            </nav>
+        </header>
+
+        <section id="ad-requests">
+            <h2>All Ad Requests</h2>
+            <div class="ad-request-list">
+                {% for ad_request in ad_requests %}
+                <div class="ad-request">
+                    <h3>{{ ad_request.id }}</h3>
+                    <p><strong>Campaign ID:</strong> {{ ad_request.campaign_id }}</p>
+                    <p><strong>Influencer ID:</strong> {{ ad_request.influencer_id }}</p>
+                    <p><strong>Requirements:</strong> {{ ad_request.requirements }}</p>
+                    <p><strong>Payment Amount:</strong> ${{ ad_request.payment_amount }}</p>
+                    <p><strong>Status:</strong> {{ ad_request.status }}</p>
+                    <form action="{{ url_for('delete_ad_request', ad_request_id=ad_request.id) }}" method="post">
+                        <button type="submit" class="delete-button">Delete</button>
+                    </form>
+                </div>
+                {% endfor %}
+            </div>
+        </section>
+        <a href="{{ url_for('sponsors_dashboard') }}" class="back-button">Back to Dashboard</a>
+    </div>
+</body>
+</html>

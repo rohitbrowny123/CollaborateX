@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Influencer Dashboard - Influencer Engagement Platform</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/influencer_dashboard.css') }}">
+</head>
+<body>
+    <div class="dashboard-container">
+        <header>
+            <h2>Influencer Dashboard</h2>
+            <nav>
+                <ul>
+                    <li><a href="{{ url_for('influencer_current_profile', id=influencer_id) }}">Profile</a></li>
+                    <li><a href="{{ url_for('create_profile') }}">Make Profile</a></li>
+                    <li><a href="{{ url_for('edit_profile', id=influencer_id) }}">Update Profile</a></li>
+                    <li><a href="{{ url_for('search_campaigns') }}">Search Campaigns</a></li>
+                </ul>
+            </nav>
+        </header>
+        <h3>Welcome, {{ influencer_name }}</h3>
+        
+        <div class="manage-section">
+            <h3>Ad Requests</h3>
+            <p>View and manage your ad requests.</p>
+            <a href="{{ url_for('influencer_ad_requests') }}">View Ad Requests</a>
+        </div>
+        <div class="manage-section">
+            <h3>Search Campaigns</h3>
+            <p>Find ongoing campaigns that match your profile.</p>
+            <a href="{{ url_for('search_campaigns') }}">Search Campaigns</a>
+        </div>
+        <a href="{{ url_for('logout') }}">Logout</a>
+    </div>
+</body>
+</html>

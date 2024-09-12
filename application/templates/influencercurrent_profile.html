@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Influencer Current Profile</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/influencercurrent_profile.css') }}">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h2>Influencer Profile</h2>
+            <nav>
+                <a href="{{ url_for('influencer_dashboard', id=influencer.id) }}" class="dashboard-link">Dashboard</a>
+                <a href="{{ url_for('create_profile') }}" class="dashboard-link">Make Profile</a>
+            </nav>
+        </header>
+        {% if success_message %}
+            <div class="success-message">{{ success_message }}</div>
+        {% endif %}
+        <div class="profile-info">
+            <p><strong>Username:</strong> {{ influencer.username }}</p>
+            <p><strong>Category:</strong> {{ influencer.category }}</p>
+            <p><strong>Niche:</strong> {{ influencer.niche }}</p>
+            <p><strong>Reach:</strong> {{ influencer.reach }}</p>
+            <p><strong>Followers:</strong> {{ influencer.followers }}</p>
+        </div>
+        <div class="profile-actions">
+            <a href="{{ url_for('edit_profile', id=influencer_id) }}" class="btn">Edit Profile</a>
+            <form method="POST" action="{{ url_for('influencer_current_profile', id=influencer.id) }}" class="delete-form">
+                <button type="submit" class="btn btn-danger">Delete Profile</button>
+            </form>
+        </div>
+    </div>
+</body>
+</html>

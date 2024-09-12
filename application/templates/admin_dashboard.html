@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard - Influencer Engagement Platform</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/admin.css') }}">
+     
+</head>
+<body>
+    <div class="dashboard-container">
+        <header>
+        <h2>Admin Dashboard</h2>
+        <nav>
+            <ul>
+                
+                <li><a href="{{ url_for('find') }}">Find</a></li>
+                <li><a href="{{ url_for('statistics_page') }}">Statistics</a></li>
+            </ul>
+        </nav>
+        </header>
+        <h3>Welcome, Admin</h3>
+        
+        <div class="manage-section">
+            <h3>Manage Users</h3>
+            <p>View and manage registered users.</p>
+            <a href="{{ url_for('view_users') }}">View users</a>
+        </div>
+        <div class="manage-section">
+            <h3>Manage Content</h3>
+            <p>Manage campaigns, ad requests, and flagged users.</p>
+            <a href="{{ url_for('manage_campaigns') }}">Manage Campaigns</a>
+            <a href="{{ url_for('manage_ads') }}">Manage Ad Requests</a>
+            <a href="{{ url_for('manage_flagged') }}">Manage Flagged Users</a>
+        </div>
+        <a href="{{ url_for('logout') }}">Logout</a>
+    </div>
+    
+</body>
+</html>

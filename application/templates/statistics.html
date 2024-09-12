@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Statistics Page</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            line-height: 1.6;
+            background-color: #605c5c;
+            margin: 0;
+            padding: 0;
+        }
+        
+        .dashboard-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #fff;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+        }
+        
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            border-bottom: 1px solid #ddd;
+            padding-bottom: 10px;
+        }
+        
+        header h2 {
+            color: #333;
+            font-size: 24px;
+            margin: 0;
+        }
+        
+        nav ul {
+            list-style-type: none;
+            display: flex;
+            padding: 0;
+        }
+        
+        nav ul li {
+            margin-right: 20px;
+        }
+        
+        nav ul li a {
+            text-decoration: none;
+            color: #333;
+            font-weight: bold;
+            transition: color 0.3s;
+        }
+        
+        nav ul li a:hover {
+            color: #579bd2;
+        }
+        
+        /* Statistics boxes */
+        .stat-box {
+            background-color: #fff;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+        
+        .stat-box h3 {
+            color: #333;
+            font-size: 20px;
+            margin-top: 0;
+            margin-bottom: 10px;
+        }
+        
+        .stat-box p {
+            color: #666;
+            margin-bottom: 5px;
+        }
+        
+        /* Charts */
+        canvas {
+            display: block;
+            margin: 16px auto;
+            max-width: 100%;
+            height: auto;
+        }
+    </style>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+
+    <div class="dashboard-container">
+        <header>
+            <h2>Admin Dashboard</h2>
+            <nav>
+                <ul>
+                    <li><a href="{{ url_for('admin_dashboard') }}">Dashboard</a></li>
+                    <li><a href="{{ url_for('find') }}">Find</a></li>
+                    <li><a href="{{ url_for('statistics_page') }}">Statistics</a></li>
+                </ul>
+            </nav>
+        </header>
+
+        <div class="statistics">
+            <div class="stat-box">
+                <h3>Active Users</h3>
+                <p>Total: {{ active_users }}</p>
+            </div>
+
+            <div class="stat-box">
+                <h3>Ongoing Campaigns</h3>
+                <p>Total: {{ total_campaigns }}</p>
+                <p>Public: {{ public_campaigns }}</p>
+                <p>Private: {{ private_campaigns }}</p>
+                <canvas id="pieChart"></canvas>
+                <canvas id="barChart"></canvas>
+            </div>
+
+            <div class="stat-box">
+                <h3>Ad Requests</h3>
+                <p>Total: {{ total_ad_requests }}</p>
+                <p>Pending: {{ pending_ad_requests }}</p>
+                <p>Approved: {{ approved_ad_requests }}</p>
+                <p>Revoked: {{ revoked_ad_requests }}</p>
+            </div>
+
+            <div class="stat-box">
+                <h3>Flagged Users</h3>
+                <p>Total: {{ flagged_users }}</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            var totalCampaigns = {{ total_campaigns }};
+            var publicCampaigns = {{ public_campaigns }};
+            var privateCampaigns = {{ private_campaigns }};
+    
+            // Pie Chart
+            var ctxPie = document.getElementById('pieChart').getContext('2d');
+            var pieChart = new Chart(ctxPie, {
+                type: 'pie',
+                data: {
+                    labels: ['Public', 'Private'],
+                    datasets: [{
+                        data: [publicCampaigns, privateCampaigns],
+                        backgroundColor: ['#36A2EB', '#FF6384'],
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    plugins: {
+                        legend: {
+                            position: 'top',
+                        }
+                    }
+                }
+            });
+    
+            // Bar Chart
+            var ctxBar = document.getElementById('barChart').getContext('2d');
+            var barChart = new Chart(ctxBar, {
+                type: 'bar',
+                data: {
+                    labels: ['Total', 'Public', 'Private'],
+                    datasets: [{
+                        label: 'Campaigns',
+                        data: [totalCampaigns, publicCampaigns, privateCampaigns],
+                        backgroundColor: ['#4BC0C0', '#36A2EB', '#FF6384'],
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    scales: {
+                        y: {
+                            beginAtZero: true
+                        }
+                    },
+                    plugins: {
+                        legend: {
+                            display: false,
+                        }
+                    }
+                }
+            });
+        });
+    </script>
+
+</body>
+</html>

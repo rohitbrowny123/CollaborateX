@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Influencer Engagement Platform</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
+</head>
+<body>
+    <div class="container">
+        <!-- Login Form -->
+        <div class="form-container">
+            <h2>Login</h2>
+            <form method="POST" action="/login">
+                <label for="login-username">Username</label>
+                <input type="text" id="login-username" name="username" required>
+                <label for="login-password">Password</label>
+                <input type="password" id="login-password" name="password" required>
+                <button type="submit">Login</button>
+            </form>
+            
+            {% with messages = get_flashed_messages() %}
+                {% if messages %}
+                    <ul class="flashes">
+                        {% for message in messages %}
+                            <li>{{ message }}</li>
+                        {% endfor %}
+                    </ul>
+                {% endif %}
+            {% endwith %}
+        </div>
+
+        <!-- Register Form -->
+        <div class="form-container" id="register">
+            <h2>Register</h2>
+            <form method="POST" action="/register">
+                <label for="register-username">Username</label>
+                <input type="text" id="register-username" name="username" required>
+                <label for="register-email">Email</label>
+                <input type="email" id="register-email" name="email" required>
+                <label for="register-password">Password</label>
+                <input type="password" id="register-password" name="password" required>
+                <label for="register-role">Role</label>
+                <select id="register-role" name="role" required>
+                    <option value="admin">Admin</option>
+                    <option value="sponsor">Sponsor</option>
+                    <option value="influencer">Influencer</option>
+                </select>
+                <button type="submit">Register</button>
+            </form>
+            
+            {% with messages = get_flashed_messages() %}
+                {% if messages %}
+                    <ul class="flashes">
+                        {% for message in messages %}
+                            <li>{{ message }}</li>
+                        {% endfor %}
+                    </ul>
+                {% endif %}
+            {% endwith %}
+        </div>
+    </div>
+</body>
+</html>

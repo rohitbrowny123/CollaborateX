@@ -1,0 +1,32 @@
+<!-- adminedit_campaign.html -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/adminedit_campaign.css') }}">
+</head>
+<body>
+    <div class="container">
+        <form method="POST" action="{{ url_for('edit_campaign', campaign_id=campaign.id) }}">
+            <label for="name">Campaign Name:</label>
+            <input type="text" id="name" name="name" value="{{ campaign.name }}" required>
+            
+            <label for="niche">Niche:</label>
+            <input type="text" id="niche" name="niche" value="{{ campaign.niche }}" required>
+            
+            <label for="start_date">Start Date:</label>
+            <input type="date" id="start_date" name="start_date" value="{{ campaign.start_date }}" required>
+            
+            <label for="end_date">End Date:</label>
+            <input type="date" id="end_date" name="end_date" value="{{ campaign.end_date }}" required>
+            
+            <label for="budget">Budget:</label>
+            <input type="number" id="budget" name="budget" value="{{ campaign.budget }}" step="0.01" required>
+            
+            <button type="submit">Save Changes</button>
+        </form>
+    </div>
+</body>
+</html>
